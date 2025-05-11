@@ -1,0 +1,23 @@
+include LICENSE
+include README.md
+include CONTRIBUTING.md
+include DOCUMENTATION.md
+include PUBLICATION_GUIDE.md
+include pyproject.toml
+include requirements.txt
+include *.md
+include Makefile
+include setup.py
+include .readthedocs.yml
+
+recursive-include python_a2a *.py
+recursive-include python_a2a py.typed
+recursive-include docs *.py *.rst
+recursive-include python_a2a/agent_flow *.py
+recursive-include python_a2a/agent_flow/server/static *.css *.js *.html *.ico
+recursive-include python_a2a/agent_flow/server/templates *.html
+
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude *.so
+global-exclude .DS_Store

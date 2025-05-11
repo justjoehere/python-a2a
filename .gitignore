@@ -91,3 +91,7 @@ token.json
 /generated/
 output/
 results/
+**/.claude/settings.local.json
+
+*CLAUDE*
+*-wiki-*

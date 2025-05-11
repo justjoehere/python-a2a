@@ -1,0 +1,55 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.9', '3.10', '3.11']
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Install UV
+      run: |
+        pip install uv
+      shell: bash
+        
+    - name: Install dependencies
+      run: |
+        # Create venv with the correct syntax
+        uv venv
+        
+        # Install dependencies directly with UV
+        if [ "$RUNNER_OS" == "Windows" ]; then
+          uv pip install -e ".[dev]"
+        else
+          uv pip install -e ".[dev]"
+        fi
+      shell: bash
+        
+    # - name: Lint with flake8
+    #   run: |
+    #     uv pip install flake8  # Ensure flake8 is installed
+    #     uv run flake8 python_a2a
+    #   shell: bash
+        
+    - name: Test with pytest
+      run: |
+        uv pip install pytest  # Ensure pytest is installed
+        uv run pytest
+      shell: bash
